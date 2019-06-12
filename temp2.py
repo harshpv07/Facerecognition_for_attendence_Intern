@@ -1,8 +1,14 @@
 def findface():
     import face_recognition
     import cv2
+    import time
     import numpy as np
-    from logfile import time
+    from logfile import timee
+    from Check import check
+    from outtime import timeout
+    import datetime
+    x = str(datetime.datetime.now())
+    date = (x.split(" ",)[0])
     video_capture = cv2.VideoCapture(0)
     employee_face = ["obama.jpg","harsh.jpg"]
     obama_image = face_recognition.load_image_file(employee_face[0])
@@ -17,6 +23,7 @@ def findface():
         "Barack Obama",
         "harsh"
     ]
+    face = []
     face_locations = []
     face_encodings = []
     face_names = []
@@ -41,7 +48,6 @@ def findface():
                 # if True in matches:
                 #     first_match_index = matches.index(True)
                 #     name = known_face_names[first_match_index]
-
                 # Or instead, use the known face with the smallest distance to the new face
                 face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
                 best_match_index = np.argmin(face_distances)
@@ -68,10 +74,48 @@ def findface():
             cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-        cv2.imshow('Video', frame)
+        
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-    time(name)
+    
+        # dict1 = {"harsh":"12421","raj":"84511","santosh":"45132"}
+        # for key,values in dict1:
+        #     if(key in name == [""])
+
+        if(name != "Unknown"):
+            timee(name)
+            face.append(name)
+            cv2.imshow('Video', frame)  
+            cv2.waitKey(4000) 
+            # if name in face:
+            #     timeout(name)
+            #     face.clear()
+            # else:
+                #check(name,date)
+            
+            # video_capture.release()
+            # time.sleep(7)
+            # video_capture = cv2.VideoCapture(0)
+
+            # if(check(name,date) == True):
+            #     timeout(name)
+            
+            exit()            
+            break
+            video_capture.release()
+            cv2.destroyAllWindows()
+
+    # start from here 
+    # to recognise the face for timeout
+    
+    # import sqlite3
+    # conn = sqlite3.connect('logfile.db')
+    # cursor = conn.execute("SELECT DATE,NAME from names")
+    # for row in cursor:
+    #     if(row[0] == date and row[1] == name):
+    #         timeout(name)
+
+    
     video_capture.release()
     cv2.destroyAllWindows()
 

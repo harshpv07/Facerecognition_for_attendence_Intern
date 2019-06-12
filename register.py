@@ -38,15 +38,22 @@ def register_face():
                 img_counter += 1
                 break
             elif (y == "N"):
-                newname = str(input("Enter the correct name :"))
-                img_name = newname+".jpg".format(img_counter)
+                name = str(input("Enter the correct name :"))
+                img_name = name+".jpg".format(img_counter)
+                
                 path = "Images/"
                 cv2.imwrite(os.path.join(path,img_name), frame)
                 print("{} written!".format(img_name))
                 print("Face Sucessfully Registered")
                 img_counter += 1
                 break
-
+    import sqlite3
+    conn = sqlite3.connect('logfile.db')
+    print ("Opened database successfully")
+    conn.execute("INSERT INTO names (NAME,IMAGE) VALUES (?,?)",(name,img_name));
+    conn.commit()
+    print("Records inserted Sucessfully")
+    conn.close()
     cam.release()
 
     cv2.destroyAllWindows()
